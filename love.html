@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffe6f0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .teddy {
+      font-size: 80px;
+    }
+
+    .heart {
+      font-size: 60px;
+      margin-top: -10px;
+    }
+
+    h1 {
+      color: #d63384;
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .buttons-wrapper {
+      margin-top: 30px;
+      position: relative;
+      width: 280px;
+      height: 60px;
+    }
+
+    .btn {
+      width: 120px;
+      height: 50px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      z-index: 1;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    #no {
+      background-color: #6c757d;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .love-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .love-popup h1 {
+      font-size: 36px;
+      color: #ff3366;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart-float {
+      position: absolute;
+      color: red;
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="teddy">🧸</div>
+  <div class="heart">❤️</div>
+  <h1>Do you love me?</h1>
+
+  <div class="buttons-wrapper" id="wrapper">
+    <button id="yes" class="btn">Yes ❤️</button>
+    <button id="no" class="btn">No 💔</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const wrapper = document.getElementById('wrapper');
+
+    function moveNoButton() {
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const maxX = wrapper.offsetWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - wrapperRect.top - noBtn.offsetHeight - 30;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    }
+
+    noBtn.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    noBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesBtn.addEventListener('click', () => {
+      const popup = document.createElement('div');
+      popup.className = 'love-popup';
+      popup.innerHTML = `
+        <div class="hearts">${generateHearts(80)}</div>
+        <h1>I love you too ❤️</h1>
+      `;
+      document.body.appendChild(popup);
+    });
+
+    function generateHearts(count) {
+      let hearts = '';
+      for (let i = 0; i < count; i++) {
+        const left = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const size = 20 + Math.random() * 30;
+        hearts += `<div class="heart-float" style="left:${left}%; animation-delay:${delay}s; font-size:${size}px;">❤️</div>`;
+      }
+      return hearts;
+    }
+  </script>
+
+</body>
+</html>>
